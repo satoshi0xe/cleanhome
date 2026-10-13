@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}CleanHome — Services de ménage à domicile{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <p class="hero-kicker">Ménage à domicile · Côte d'Ivoire</p>
+    <h1>Des services de ménage adaptés à vos besoins.</h1>
+    <p>Trouvez la prestation qu'il vous faut et réservez votre intervention en quelques clics.</p>
+  </section>
+
+  <section class="section" id="prestations">
+    <div class="category-scroll" aria-label="Catégories de prestations">
+      <button class="category active" data-category="Tous">Tous</button>
+      <button class="category" data-category="Ménage standard">Ménage standard</button>
+      <button class="category" data-category="Grand ménage">Grand ménage</button>
+      <button class="category" data-category="Cuisine">Cuisine</button>
+      <button class="category" data-category="Salle de bain">Salle de bain</button>
+      <button class="category" data-category="Événement">Événement</button>
+    </div>
+
+    <div class="cards">
+      {% for service in services %}
+        {% include "partials/service_card.html" %}
+      {% else %}
+        <p>Aucune prestation disponible pour le moment.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Réservation confirmée — CleanHome{% endblock %}
+
+{% block content %}
+  <div class="confirm-wrap">
+    <div class="confirm-card">
+      <div class="success-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+          <path d="m5 12.5 4.5 4.5L19 7"></path>
+        </svg>
+      </div>
+
+      <h1>Réservation confirmée</h1>
+      <p class="subtitle">Votre demande de prestation a bien été enregistrée.</p>
+
+      <div class="recap">
+        <div class="recap-row">
+          <span class="label">Prestation</span>
+          <span class="value">{{ booking.service.name }}</span>
+        </div>
+        <div class="recap-row">
+          <span class="label">Prix</span>
+          <span class="value amount">{{ "{:,}".format(booking.price).replace(",", " ") }} FCFA</span>
+        </div>
+        <div class="recap-row">
+          <span class="label">Date</span>
+          <span class="value">{{ booking.date.strftime('%d %B %Y') if booking.date else '—' }}</span>
+        </div>
+        <div class="recap-row">
+          <span class="label">Adresse</span>
+          <span class="value">{{ booking.address }}</span>
+        </div>
+        <div class="recap-row">
+          <span class="label">Statut</span>
+          <span class="value">{% with status=booking.status %}{% include "partials/status_badge.html" %}{% endwith %}</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a href="/reservations" class="btn-primary">Voir mes réservations</a>
+        <a href="/" class="btn-secondary">Retour aux prestations</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

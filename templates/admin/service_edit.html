@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Modifier {{ service.name }} — Admin CleanHome{% endblock %}
+
+{% block content %}
+  <a class="back-link" href="/admin/services">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H6M12 6l-6 6 6 6"></path>
+    </svg>
+    Retour aux prestations
+  </a>
+
+  <div class="page-head">
+    <h1>Modifier la prestation</h1>
+    <p>Les changements apparaissent immédiatement dans le catalogue. Le prix des réservations déjà faites n'est pas modifié.</p>
+  </div>
+
+  {% if error %}
+    <div class="alert" role="alert">{{ error }}</div>
+  {% endif %}
+
+  <form class="form-card admin" action="/admin/services/{{ service.id }}/edit" method="post" enctype="multipart/form-data">
+    <div class="form-grid">
+      <div class="field full">
+        <label for="name">Nom de la prestation <span class="req">*</span></label>
+        <input id="name" name="name" type="text" value="{{ service.name }}" required />
+      </div>
+
+      <div class="field">
+        <label for="category">Catégorie <span class="req">*</span></label>
+        <input id="category" name="category" type="text" value="{{ service.category }}" required />
+        <span class="hint">Saisissez librement une catégorie existante ou nouvelle.</span>
+      </div>
+
+      <div class="field">
+        <label for="duration">Durée indicative <span class="req">*</span></label>
+        <input id="duration" name="duration" type="text" value="{{ service.duration }}" required />
+      </div>
+
+      <div class="field full">
+        <label for="description">Description <span class="req">*</span></label>
+        <textarea id="description" name="description" required>{{ service.description }}</textarea>
+      </div>
+
+      <div class="field">
+        <label for="price">Prix (FCFA) <span class="req">*</span></label>
+        <input id="price" name="price" type="number" min="1" step="500" value="{{ service.price }}" required />
+      </div>
+
+      <div class="field full">
+        <label for="image">Image de la prestation</label>
+        {% if service.image_url %}
+          <span class="hint">Image actuelle conservée si vous n'en envoyez pas une nouvelle.</span>
+        {% endif %}
+        <label class="upload" for="image">
+          <span class="upload-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+              <path d="M4 16.5 9 11l4 4 3-3 4 4"></path>
+              <rect x="3.5" y="5" width="17" height="14" rx="2"></rect>
+              <circle cx="9" cy="9.5" r="1.4"></circle>
+            </svg>
+          </span>
+          <span class="upload-text">
+            <strong>Choisir une image</strong>
+            <span>PNG ou JPG — recommandé 1200 × 800 px</span>
+          </span>
+          <input id="image" name="image" type="file" accept="image/png, image/jpeg" />
+        </label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-primary" type="submit">
+        Enregistrer les modifications
+      </button>
+      <a class="btn-secondary" href="/admin/services">Annuler</a>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ service.name }} — CleanHome{% endblock %}
+
+{% block content %}
+  <a class="back-link" href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H6M12 6l-6 6 6 6"></path>
+    </svg>
+    Retour aux prestations
+  </a>
+
+  <section class="service">
+    <div class="service-image" style="background-image:url('{{ service.image_url }}')" role="img" aria-label="{{ service.name }}"></div>
+
+    <div class="service-info">
+      <div class="service-cat">{{ service.category }}</div>
+      <h1>{{ service.name }}</h1>
+      <p class="lead">{{ service.description }}</p>
+
+      <div class="service-price">
+        <strong>{{ "{:,}".format(service.price).replace(",", " ") }} FCFA</strong>
+        <span>/ prestation</span>
+      </div>
+
+      <div class="info-block">
+        <h2>Description</h2>
+        <p>{{ service.long_description or service.description }}</p>
+      </div>
+
+      <div class="info-block">
+        <h2>Ce qui est inclus</h2>
+        <ul class="included-list">
+          {% for item in service.included_items or [] %}
+            <li>
+              <span class="check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 4 4L19 6"></path></svg>
+              </span>
+              {{ item }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <h2>Durée indicative</h2>
+        <div class="duration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 7v5l3 2"></path>
+          </svg>
+          {{ service.duration }}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <div class="cta-wrap">
+    <div class="cta-inner">
+      <div class="cta-price">
+        <span class="label">Total</span>
+        <span class="value">{{ "{:,}".format(service.price).replace(",", " ") }} FCFA</span>
+      </div>
+      <a href="/book/{{ service.id }}" class="btn-primary">
+        Réserver cette prestation
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h13M13 6l6 6-6 6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+{% endblock %}

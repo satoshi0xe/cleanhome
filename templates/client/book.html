@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Réserver — CleanHome{% endblock %}
+
+{% block content %}
+  <a class="back-link" href="/service/{{ service.id }}">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H6M12 6l-6 6 6 6"></path>
+    </svg>
+    Retour à la prestation
+  </a>
+
+  <section class="booking">
+    <div class="booking-form">
+      <h1>Réserver votre prestation</h1>
+      <p class="subtitle">Renseignez la date et l'adresse d'intervention. Aucun paiement en ligne — vous réglerez après la prestation.</p>
+
+      {% if error %}
+        <div class="alert" role="alert">{{ error }}</div>
+      {% endif %}
+
+      <form class="form-card" action="/book/{{ service.id }}" method="post">
+        <div class="field">
+          <label for="date">Date d'intervention</label>
+          <input id="date" name="date" type="date" required />
+        </div>
+
+        <div class="field">
+          <label for="address">Adresse d'intervention</label>
+          <textarea id="address" name="address" placeholder="Ex : Cocody Riviera 3, rue des Jardins, villa 12" required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="phone">Téléphone</label>
+          <input id="phone" name="phone" type="tel" value="{{ user.phone if user else '' }}" required />
+        </div>
+
+        <button class="btn-primary" style="width:100%;padding:15px;margin-top:22px;" type="submit">
+          Confirmer la réservation
+        </button>
+      </form>
+    </div>
+
+    <aside class="summary" aria-label="Résumé de la réservation">
+      <div class="summary-image" style="background-image:url('{{ service.image_url }}')"></div>
+      <div class="summary-body">
+        <div class="summary-cat">{{ service.category }}</div>
+        <h2>{{ service.name }}</h2>
+        <p class="desc">{{ service.description }}</p>
+
+        <div class="summary-row">
+          <span class="label">Durée indicative</span>
+          <span class="value">{{ service.duration }}</span>
+        </div>
+
+        <div class="summary-row">
+          <span class="label">Prestation</span>
+          <span class="value">{{ "{:,}".format(service.price).replace(",", " ") }} FCFA</span>
+        </div>
+
+        <div class="summary-total">
+          <span class="label">Total</span>
+          <span class="amount">{{ "{:,}".format(service.price).replace(",", " ") }} FCFA</span>
+        </div>
+      </div>
+    </aside>
+  </section>
+{% endblock %}

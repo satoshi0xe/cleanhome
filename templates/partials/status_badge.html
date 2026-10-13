@@ -1,0 +1,3 @@
+{# Usage : {% with status="pending" %}{% include "partials/status_badge.html" %}{% endwith %} #}
+{% set labels = {"pending": "En attente", "confirmed": "Confirmée", "done": "Terminée", "cancelled": "Annulée"} %}
+<span class="status {{ status }}">{{ labels.get(status, status) }}</span>

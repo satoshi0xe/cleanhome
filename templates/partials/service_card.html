@@ -1,0 +1,12 @@
+<a class="card" href="/service/{{ service.id }}" data-category="{{ service.category }}">
+  <div class="card-image" style="background-image:url('{{ service.image_url }}')"></div>
+  <div class="card-body">
+    <div class="card-cat">{{ service.category }}</div>
+    <h3>{{ service.name }}</h3>
+    <p>{{ service.description }}</p>
+    <div class="card-foot">
+      <div class="price">{{ "{:,}".format(service.price).replace(",", " ") }} FCFA <span>/ prestation</span></div>
+      {% if service.duration %}<span class="card-duration">{{ service.duration }}</span>{% endif %}
+    </div>
+  </div>
+</a>

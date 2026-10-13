@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Réservations — Admin CleanHome{% endblock %}
+
+{% block content %}
+  <div class="page-head">
+    <h1>Réservations</h1>
+    <p>Suivez les demandes clients et mettez à jour leur statut.</p>
+  </div>
+
+  <div class="filters" role="tablist" aria-label="Filtrer par statut">
+    <button class="filter active" data-filter="all" type="button">Toutes</button>
+    <button class="filter" data-filter="pending" type="button">En attente</button>
+    <button class="filter" data-filter="confirmed" type="button">Confirmées</button>
+    <button class="filter" data-filter="done" type="button">Terminées</button>
+    <button class="filter" data-filter="cancelled" type="button">Annulées</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Prestation</th>
+          <th>Date</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in bookings %}
+          <tr data-status="{{ booking.status }}">
+            <td>
+              <div class="cell-client">
+                <div class="avatar">
+                  {{ booking.user.full_name.split()[0][0] }}{{ booking.user.full_name.split()[-1][0] }}
+                </div>
+                <div>
+                  <div class="client-name">{{ booking.user.full_name }}</div>
+                  <div class="client-phone">{{ booking.phone }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="cell-service">
+                <h3>{{ booking.service.name }}</h3>
+                <div class="price">{{ "{:,}".format(booking.price).replace(",", " ") }} FCFA</div>
+              </div>
+            </td>
+            <td class="col-date" data-label="Date">
+              <span class="date-cell">{{ booking.date.strftime('%d/%m/%Y') if booking.date else '—' }}</span>
+            </td>
+            <td class="col-status" data-label="Statut">
+              <form method="post" action="/admin/bookings/{{ booking.id }}/status">
+                <div class="status-select-wrap {{ booking.status }}">
+                  <select name="status" class="status-select {{ booking.status }}" aria-label="Changer le statut"
+                          onchange="this.form.submit()">
+                    <option value="pending"   {% if booking.status == 'pending' %}selected{% endif %}>En attente</option>
+                    <option value="confirmed" {% if booking.status == 'confirmed' %}selected{% endif %}>Confirmée</option>
+                    <option value="done"      {% if booking.status == 'done' %}selected{% endif %}>Terminée</option>
+                    <option value="cancelled" {% if booking.status == 'cancelled' %}selected{% endif %}>Annulée</option>
+                  </select>
+                </div>
+              </form>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="4" style="text-align:center;color:var(--muted);padding:40px;">
+              Aucune réservation pour le moment.
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

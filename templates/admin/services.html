@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Prestations — Admin CleanHome{% endblock %}
+
+{% block content %}
+  <div class="page-head split">
+    <div>
+      <h1>Prestations</h1>
+      <p>Gérez le catalogue de prestations proposées aux clients.</p>
+    </div>
+    <a class="btn-primary" href="/admin/services/new">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M12 5v14M5 12h14"></path>
+      </svg>
+      Ajouter une prestation
+    </a>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Prestation</th>
+          <th>Prix</th>
+          <th>Catégorie</th>
+          <th class="right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for service in services %}
+          <tr>
+            <td>
+              <div class="cell-service">
+                <div class="thumb" style="background-image:url('{{ service.image_url }}')"></div>
+                <div>
+                  <h3>{{ service.name }}</h3>
+                  <div class="sub">{{ service.description }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="col-price" data-label="Prix">
+              <span class="price">{{ "{:,}".format(service.price).replace(",", " ") }} FCFA</span>
+            </td>
+            <td class="col-cat" data-label="Catégorie">
+              <span class="cat-badge">{{ service.category }}</span>
+            </td>
+            <td class="col-actions">
+              <div class="actions-cell">
+                <a class="icon-btn" href="/admin/services/{{ service.id }}/edit" title="Modifier">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                    <path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3Z"></path>
+                    <path d="M13.5 6.5l4 4"></path>
+                  </svg>
+                </a>
+                <form method="post" action="/admin/services/{{ service.id }}/delete" style="display:inline;">
+                  <button class="icon-btn danger" type="submit" title="Supprimer"
+                          onclick="return confirm('Supprimer cette prestation ?');">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                      <path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"></path>
+                    </svg>
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="4" style="text-align:center;color:var(--muted);padding:40px;">
+              Aucune prestation enregistrée.
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

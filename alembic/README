@@ -1,0 +1,5 @@
+Migrations Alembic de CleanHome.
+
+Les modèles SQLAlchemy (`app.models`) sont la source de vérité.
+En développement SQLite, `Base.metadata.create_all` reste actif au démarrage.
+En production, utiliser `alembic upgrade head`.

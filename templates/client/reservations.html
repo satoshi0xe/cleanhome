@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Mes réservations — CleanHome{% endblock %}
+
+{% block content %}
+  <div class="page-head">
+    <h1>Mes réservations</h1>
+    <p>Retrouvez ici toutes vos demandes de prestations.</p>
+  </div>
+
+  {% if bookings %}
+    <section class="list" aria-label="Liste de vos réservations">
+      {% for booking in bookings %}
+        <article class="reservation">
+          <div class="res-thumb" style="background-image:url('{{ booking.service.image_url }}')"></div>
+          <div class="res-main">
+            <h3>{{ booking.service.name }}</h3>
+            <div class="cat">{{ booking.service.category }}</div>
+          </div>
+          <div class="res-info-wrap">
+            <div class="res-info">
+              <span class="label">Date</span>
+              <span class="value">{{ booking.date.strftime('%d/%m/%Y') if booking.date else '—' }}</span>
+            </div>
+            <div class="res-info">
+              <span class="label">Adresse</span>
+              <span class="value">{{ booking.address }}</span>
+            </div>
+          </div>
+          <div class="res-price">{{ "{:,}".format(booking.price).replace(",", " ") }} FCFA</div>
+          <div class="res-status">
+            {% with status=booking.status %}{% include "partials/status_badge.html" %}{% endwith %}
+          </div>
+        </article>
+      {% endfor %}
+    </section>
+  {% else %}
+    <section class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <rect x="3.5" y="5" width="17" height="16" rx="2"></rect>
+        <path d="M7 3v4M17 3v4M3.5 10h17"></path>
+      </svg>
+      <h2>Aucune réservation pour le moment</h2>
+      <p>Découvrez nos prestations et réservez votre première intervention.</p>
+      <a class="btn-primary" href="/">
+        Voir les prestations
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+      </a>
+    </section>
+  {% endif %}
+{% endblock %}
